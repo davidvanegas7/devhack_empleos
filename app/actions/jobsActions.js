@@ -1,34 +1,34 @@
-import { assign } from 'lodash';
+import assign from 'lodash/fp/assign';
 
 // Acciones que envian su informacion al reducer
-const receivePosts = (posts) => (
+const receivePosts = (jobs) => (
   {
-    type: 'RECEIVE_POSTS',
-    posts,
+    type: 'RECEIVE_JOBS',
+    jobs,
   }
 );
 
 export const refreshPosts = () => (
   {
-    type: 'REFRESH_POSTS',
+    type: 'REFRESH_JOBS',
   }
 );
 
-export const togglePostsLoading = () => ({
-  type: 'TOGGLE_POSTS_LOADING',
+export const toggleJobsLoading = () => ({
+  type: 'TOGGLE_JOBS_LOADING',
 });
 
 // Acciones que se exportan para ser usadas en las clases de React
 export function createPost(post) {
   return (dispatch) => {
-    dispatch(togglePostsLoading());
+    dispatch(toggleJobsLoading());
     return fetch('http://localhost:3000/posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(assign({}, post)),
     })
     .then(() => {
-      dispatch(togglePostsLoading());
+      dispatch(toggleJobsLoading());
       dispatch(refreshPosts());
       // dispatch(receiveCreatePost(response))
     });
@@ -37,14 +37,14 @@ export function createPost(post) {
 
 export function editPost(post) {
   return (dispatch) => {
-    dispatch(togglePostsLoading());
+    dispatch(toggleJobsLoading());
     return fetch(`http://localhost:3000/jobs/${post._id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(assign({}, post)),
     })
     .then(() => {
-      dispatch(togglePostsLoading());
+      dispatch(toggleJobsLoading());
       dispatch(refreshPosts());
     });
   };
@@ -52,7 +52,7 @@ export function editPost(post) {
 
 export function deletePost(id) {
   return (dispatch) => {
-    dispatch(togglePostsLoading());
+    dispatch(toggleJobsLoading());
     return fetch(`http://localhost:3000/jobs/${id}`, {
       method: 'DELETE',
       headers: {
@@ -61,7 +61,7 @@ export function deletePost(id) {
       },
     })
     .then(() => {
-      dispatch(togglePostsLoading());
+      dispatch(toggleJobsLoading());
       dispatch(refreshPosts());
     });
   };
@@ -69,14 +69,14 @@ export function deletePost(id) {
 
 export function fetchPosts() {
   return (dispatch) => {
-    dispatch(togglePostsLoading());
+    dispatch(toggleJobsLoading());
     return fetch('http://localhost:3000/jobs', {
       method: 'GET',
     })
     .then(response => response.json())
     .then(json => {
       dispatch(receivePosts(json));
-      dispatch(togglePostsLoading());
+      dispatch(toggleJobsLoading());
     });
   };
 }

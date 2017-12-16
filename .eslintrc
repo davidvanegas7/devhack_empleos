@@ -17,6 +17,7 @@
     "react/forbid-prop-types": "off",
     "no-underscore-dangle": "off",
     "import/no-unresolved": "off",
+    "no-confusing-arrow": "off",
   },
   "settings": {
     "import/resolver": "webpack",
