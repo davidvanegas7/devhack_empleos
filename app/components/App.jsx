@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../store';
+// import { initAuth } from '../auth';
 
 import Home from './Home';
 
@@ -19,5 +20,9 @@ const App = () => (
     </Router>
   </Provider>
 );
-
+/*
+initAuth(store.dispatch)
+  .then(() => render(App))
+  .catch(error => console.error(error));
+*/
 export default App;
