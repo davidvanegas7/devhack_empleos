@@ -1,16 +1,20 @@
 import React from 'react';
 import { Input, Label, Col, Row, Container } from 'reactstrap';
 // import 'bootstrap/dist/css/bootstrap.css';
+import Navig from '../Nav';
 
-import imageLogoDevhack from '../../../assets/img/logo.png';
-
-//      <Button color="primary">primary</Button>{' '}
 const Home = () =>
   (
     <div>
-      <img src={imageLogoDevhack} alt="logo" />
+      <Navig />
+      <style jsx>{`
+        .spc {
+          margin: 40px 0;
+        }
+      `}
+      </style>
       <Container style={{ padding: '2rem' }}>
-        <Row>
+        <Row className="spc">
           <center>
             <h3>Estudiantes con habilidades practicas</h3>
           </center>
@@ -20,49 +24,38 @@ const Home = () =>
             <h1>Encuentra a tu proximo desarrollador</h1>
           </Col>
           <Col sm={2}>
-            <button className="btn btn-lg btn-danger btn-right">Hola</button>
+            <a href="oferta" className="btn btn-md btn-danger btn-right">Crear Oferta</a>
           </Col>
         </Row>
-        <Row row tag="Ciudad" inline sm={6}>
-          <center>
-            <Col sm={6}>
-              <Row>
-                <Col sm={3}>
-                  <Row>
-                    <Input type="checkbox" id="radiometodociudad" />{' '}
-                    Presencial
-                  </Row>
-                </Col>
-                <Col sm={3}>
-                  <Row>
-                    <Input type="checkbox" id="radiometodociudad" />{' '}
-                    Remoto
-                  </Row>
-                </Col>
-              </Row>
-            </Col>
-            <Col sm={6}>
-              <Row>
-                <Label for="ciudadselect" sm={2}>Ciudad</Label>
-                <Col sm={4}>
-                  <Input type="select" name="select" id="ciudadselect">
-                    <option>1</option>
-                    <option>2</option>
-                  </Input>
-                </Col>
-              </Row>
-            </Col>
-          </center>
+        <Row className="spc">
+          <Col xs="6" sm="6">
+            <h5>En donde?</h5>
+            <Label check>
+              <Input type="radio" name="radio1" />{' '}
+              Presencial
+            </Label>
+            <Label check sm={{ offset: 2 }}>
+              <Input type="radio" name="radio1" />{' '}
+              Remoto
+            </Label>
+          </Col>
+          <Col xs="6" sm="4">
+            <h5>Ciudad</h5>
+            <Input type="select" name="select" id="ciudadselect">
+              <option>1</option>
+              <option>2</option>
+            </Input>
+          </Col>
         </Row>
-        <Col sm={6}>
-          <Row tag="TipoLenguaje" row>
-            <Label>Que desarrolle en que lenguaje o framework o tecnologia ?</Label>
+        <Row className="spc">
+          <Col sm="12" md={{ size: 7 }}>
+            <h5>Que desarrolle en que lenguaje o framework o tecnologia ?</h5>
             <Input type="select" name="select" id="TipoLenguaje">
               <option>React</option>
               <option>Vue</option>
             </Input>
-          </Row>
-        </Col>
+          </Col>
+        </Row>
       </Container>
     </div>
   );
