@@ -2,6 +2,8 @@ import React from 'react';
 import { Input, Label, Col, Row, Container } from 'reactstrap';
 // import 'bootstrap/dist/css/bootstrap.css';
 import Navig from '../Nav';
+import SelectMaps from '../SelectMaps';
+
 
 const Home = () =>
   (
@@ -41,10 +43,7 @@ const Home = () =>
           </Col>
           <Col xs="6" sm="4">
             <h5>Ciudad</h5>
-            <Input type="select" name="select" id="ciudadselect">
-              <option>1</option>
-              <option>2</option>
-            </Input>
+            <SelectMaps />
           </Col>
         </Row>
         <Row className="spc">

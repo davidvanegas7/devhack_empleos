@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Form, FormGroup, Input, Label } from 'reactstrap';
 // import 'bootstrap/dist/css/bootstrap.css';
 import Navig from '../Nav';
+import SelectMaps from '../SelectMaps';
 
 const Oferta = () =>
   (
@@ -64,10 +65,7 @@ const Oferta = () =>
         <FormGroup row className="spc">
           <Col sm={{ size: 3, offset: 3 }}>
             <h5>Ciudad: </h5>
-            <Input type="select" name="select" id="ciudadselect">
-              <option>1</option>
-              <option>2</option>
-            </Input>
+            <SelectMaps />
           </Col>
           <Col sm={{ size: 4 }}>
             <h5>Que desarrolle en que lenguaje o framework o tecnologia ?</h5>
