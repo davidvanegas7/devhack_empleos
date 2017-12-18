@@ -26,6 +26,8 @@ const toggleJobsLoading = () => ({
 export function createJob(job) {
   return (dispatch) => {
     dispatch(toggleJobsLoading());
+    console.log('ENTRO AL JOBS ACtIONS');
+    console.log(job);
     fire.database().ref(route).push(JSON.stringify(assign({}, job)));
     dispatch(toggleJobsLoading());
     dispatch(refreshJobs());

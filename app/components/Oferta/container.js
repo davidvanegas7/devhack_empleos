@@ -1,10 +1,9 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Jobs from './Jobs';
+import Oferta from './Oferta';
 import {
-  fetchJobs,
+  createJob,
   editJob,
-  deleteJob,
 } from '../../actions';
 
 // Se mapea el estado del reducer jobReducer
@@ -14,10 +13,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => (
   bindActionCreators({
-    fetchJobs,
+    createJob,
     editJob,
-    deleteJob,
   }, dispatch)
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Jobs);
+export default connect(mapStateToProps, mapDispatchToProps)(Oferta);

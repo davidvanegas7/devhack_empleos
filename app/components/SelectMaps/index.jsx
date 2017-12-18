@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
+import React, { Component } from 'react';
+import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete';
 
 class SelectMaps extends Component {
   constructor(props) {
@@ -8,6 +8,7 @@ class SelectMaps extends Component {
       address: '',
       geocodeResults: null,
       loading: false,
+      city: '',
     };
     this.handleSelect = this.handleSelect.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -20,20 +21,12 @@ class SelectMaps extends Component {
     });
 
     geocodeByAddress(address)
-      .then((results) => getLatLng(results[0]))
-      .then(({ lat, lng }) => {
-        console.log('Success Yay', { lat, lng });
-        // this.setState({
-        //   geocodeResults: this.renderGeocodeSuccess(lat, lng),
-        //   loading: false,
-        // });
+      .then((results) => {
+        console.log(results[0].formatted_address);
+        this.setState({ city: results[0].formatted_address });
       })
       .catch((error) => {
         console.log('Oh no!', error);
-        // this.setState({
-        //   geocodeResults: this.renderGeocodeFailure(error),
-        //   loading: false,
-        // });
       });
 
     /* NOTE: Using callback (Deprecated version) */
