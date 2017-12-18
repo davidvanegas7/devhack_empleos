@@ -1,5 +1,6 @@
 import { firebaseDb } from './firebase';
 
+
 export default class FirebaseList {
   constructor(actions, modelClass, path = null) {
     this._actions = actions;
@@ -77,7 +78,7 @@ export default class FirebaseList {
   }
 
   unwrapSnapshot(snapshot) {
-    const attrs = snapshot.val();
+    let attrs = snapshot.val();
     attrs.key = snapshot.key;
     return new this._modelClass(attrs);
   }

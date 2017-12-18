@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
+// import { firebaseStateReducer } from 'react-redux-firebase';
 import jobsData from './jobsReducer';
-import { authReducer } from '../auth/reducer';
+
 // Combina los reducers
 const appReducer = combineReducers({
   jobsData,
-  authReducer,
+//  firebase: firebaseStateReducer,
 });
 
 export default appReducer;

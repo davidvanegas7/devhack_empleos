@@ -1,56 +1,53 @@
 import assign from 'lodash/fp/assign';
+import fire from '../fire';
+import { route } from '../constants';
 
+// import { JobList } from '../list/job-list';
 // Acciones que envian su informacion al reducer
-const receivePosts = (jobs) => (
+
+const receiveJobs = (jobs) => (
   {
     type: 'RECEIVE_JOBS',
     jobs,
   }
 );
 
-export const refreshPosts = () => (
+const refreshJobs = () => (
   {
     type: 'REFRESH_JOBS',
   }
 );
 
-export const toggleJobsLoading = () => ({
+const toggleJobsLoading = () => ({
   type: 'TOGGLE_JOBS_LOADING',
 });
 
 // Acciones que se exportan para ser usadas en las clases de React
-export function createPost(post) {
+export function createJob(job) {
   return (dispatch) => {
     dispatch(toggleJobsLoading());
-    return fetch('http://localhost:3000/posts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(assign({}, post)),
-    })
-    .then(() => {
-      dispatch(toggleJobsLoading());
-      dispatch(refreshPosts());
-      // dispatch(receiveCreatePost(response))
-    });
+    fire.database().ref(route).push(JSON.stringify(assign({}, job)));
+    dispatch(toggleJobsLoading());
+    dispatch(refreshJobs());
   };
 }
 
-export function editPost(post) {
+export function editJob(job) {
   return (dispatch) => {
     dispatch(toggleJobsLoading());
-    return fetch(`http://localhost:3000/jobs/${post._id}`, {
+    return fetch(`http://localhost:3000/jobs/${job._id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(assign({}, post)),
+      body: JSON.stringify(assign({}, job)),
     })
     .then(() => {
       dispatch(toggleJobsLoading());
-      dispatch(refreshPosts());
+      dispatch(refreshJobs());
     });
   };
 }
 
-export function deletePost(id) {
+export function deleteJob(id) {
   return (dispatch) => {
     dispatch(toggleJobsLoading());
     return fetch(`http://localhost:3000/jobs/${id}`, {
@@ -62,20 +59,32 @@ export function deletePost(id) {
     })
     .then(() => {
       dispatch(toggleJobsLoading());
-      dispatch(refreshPosts());
+      dispatch(refreshJobs());
     });
   };
 }
 
-export function fetchPosts() {
+export function fetchJobs() {
   return (dispatch) => {
     dispatch(toggleJobsLoading());
-    return fetch('http://localhost:3000/jobs', {
-      method: 'GET',
-    })
-    .then(response => response.json())
-    .then(json => {
-      dispatch(receivePosts(json));
+    const items = [];
+    const jobsRef = fire.database().ref(route);
+    jobsRef.on('value', (snapshot) => {
+      snapshot.forEach(childSnapshot => {
+        items.push({
+          empresa: childSnapshot.val(),
+          cargo: 'cargo',
+          tipo: 'tipo',
+          ciudad: 'ciudad',
+          fecha: 'fecha',
+          descripcion: 'descripcion',
+          email: 'email',
+          celular: 'celular',
+          key: childSnapshot.key,
+          id: childSnapshot.key,
+        });
+      });
+      dispatch(receiveJobs((items)));
       dispatch(toggleJobsLoading());
     });
   };

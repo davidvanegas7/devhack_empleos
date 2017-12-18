@@ -5,4 +5,6 @@ const endpoints = {
   post: `${url}/post/`,
 };
 
+export const route = 'messages';
+
 export default endpoints;

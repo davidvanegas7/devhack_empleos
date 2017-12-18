@@ -15,7 +15,7 @@ const Home = () =>
       <Button color="primary">primary</Button>{' '}
       <Button color="danger">danger</Button>{' '}
       <Button color="warning">warning</Button>{' '}
-      <Link href="/" label="Home" />
+      <Link href="/list" label="Jobs" />
     </div>
   );
 

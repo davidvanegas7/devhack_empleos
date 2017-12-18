@@ -9,6 +9,7 @@ import store from '../store';
 // import { initAuth } from '../auth';
 
 import Home from './Home';
+import Jobs from './JobsApp/container';
 
 // para poder usar el store hay que contener la aplicacion en un provider
 const App = () => (
@@ -16,6 +17,7 @@ const App = () => (
     <Router>
       <Switch>
         <Route path="/" exact component={Home} />
+        <Route path="/list" exact component={Jobs} />
       </Switch>
     </Router>
   </Provider>
