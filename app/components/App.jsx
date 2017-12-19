@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../store';
-import Home from './Home';
+import Home from './Home/container';
 import Oferta from './Oferta/container';
 
 // para poder usar el store hay que contener la aplicacion en un provider

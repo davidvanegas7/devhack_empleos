@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete';
+import PropTypes from 'prop-types';
 
 class SelectMaps extends Component {
+
+  static propTypes = {
+    handleChangeCiudad: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       address: '',
       geocodeResults: null,
       loading: false,
-      city: '',
     };
     this.handleSelect = this.handleSelect.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -22,8 +27,8 @@ class SelectMaps extends Component {
 
     geocodeByAddress(address)
       .then((results) => {
-        console.log(results[0].formatted_address);
-        this.setState({ city: results[0].formatted_address });
+        const { handleChangeCiudad } = this.props;
+        handleChangeCiudad(results[0].formatted_address);
       })
       .catch((error) => {
         console.log('Oh no!', error);

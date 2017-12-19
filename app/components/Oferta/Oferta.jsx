@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Form, FormGroup, Label } from 'reactstrap';
-import { Input, Dropdown, RadioGroup, RadioButton } from 'react-toolbox/lib';
-import ImmutablePropTypes from 'react-immutable-proptypes';
+import { Container, Row, Col, FormGroup, Input, Label } from 'reactstrap';
 import PropTypes from 'prop-types';
 // import 'bootstrap/dist/css/bootstrap.css';
 import { fromJS } from 'immutable';
@@ -19,10 +17,11 @@ class Oferta extends Component {
     empresa: '',
     email: '',
     telefono: '',
-    ciudad: '',
     descripcion: '',
     modalidad: '',
-    keywords: '',
+    keywords: '0',
+    ciudad: '',
+    fecha: '',
   });
 
   state = {
@@ -35,18 +34,54 @@ class Oferta extends Component {
     this.setState({ jobState });
   };
 
+  handleChangex = (evt, key) => {
+    const value = evt.target.value;
+    console.log(`${key}: ${value}`);
+    const jobState = this.state.jobState.set(key, value);
+    this.setState({ jobState });
+  };
+
+  handleChangeTelefono = (evt) => {
+    this.handleChangex(evt, 'telefono');
+  }
+
+  handleChangeEmpresa = (evt) => {
+    this.handleChangex(evt, 'empresa');
+  }
+
+  handleChangeTitulo = (evt) => {
+    this.handleChangex(evt, 'titulo');
+  }
+
+  handleChangeEmail = (evt) => {
+    this.handleChangex(evt, 'email');
+  }
+
+  handleChangeDescripcion= (evt) => {
+    this.handleChangex(evt, 'descripcion');
+  }
+
+  handleChangeModalidad = (evt) => {
+    this.handleChangex(evt, 'modalidad');
+  }
+
+  handleChangeKeywords = (evt) => {
+    this.handleChangex(evt, 'keywords');
+  }
+
+  handleChangeCiudad = (value) => {
+    const jobState = this.state.jobState.set('ciudad', value);
+    this.setState({ jobState });
+  }
+
+
   handleCreateJob = () => {
     const { createJob } = this.props;
+    this.state.jobState.set('fecha', new Date());
     createJob(this.state.jobState.toJS());
   }
 
   render() {
-    const tecnologies = [
-      { value: 'vue', label: 'Vue.js' },
-      { value: 'react', label: 'React' },
-      { value: 'java', label: 'Java' },
-      { value: 'golang', label: 'Golang' },
-    ];
     return (
       <div>
         <Navig />
@@ -77,7 +112,7 @@ class Oferta extends Component {
                 name="titulo"
                 id="idTitulo"
                 placeholder="Ingresa el titulo"
-                onChange={this.handleChange.bind(this, 'titulo')}
+                onChange={this.handleChangeTitulo}
                 value={this.state.jobState.get('titulo')}
               />
             </Col>
@@ -89,7 +124,7 @@ class Oferta extends Component {
                 id="idEmpresa"
                 placeholder="Ingresa la empresa"
                 value={this.state.jobState.get('empresa')}
-                onChange={this.handleChange.bind(this, 'empresa')}
+                onChange={this.handleChangeEmpresa}
               />
             </Col>
           </FormGroup>
@@ -102,7 +137,7 @@ class Oferta extends Component {
                 id="idEmail"
                 placeholder="Ingresa el correo electronico"
                 value={this.state.jobState.get('email')}
-                onChange={this.handleChange.bind(this, 'email')}
+                onChange={this.handleChangeEmail}
               />
             </Col>
             <Col sm={{ size: 3 }}>
@@ -113,7 +148,7 @@ class Oferta extends Component {
                 id="idCelular"
                 placeholder="Ingresa el telefono"
                 value={this.state.jobState.get('telefono')}
-                onChange={this.handleChange.bind(this, 'telefono')}
+                onChange={this.handleChangeTelefono}
               />
             </Col>
           </FormGroup>
@@ -122,31 +157,40 @@ class Oferta extends Component {
               <h5>Modalidad: </h5>
             </Col>
             <Col sm={{ size: 4 }}>
-              <RadioGroup name="modalidad" value={this.state.jobState.get('modalidad')} onChange={this.handleChange.bind(this, 'modalidad')} >
-                <RadioButton label="Presencial" value="Presencial" />
-                <RadioButton label="Remoto" value="Remoto" />
-              </RadioGroup>
+              <FormGroup check>
+                <Label check>
+                  <Input type="radio" name="radio1" value="Presencial" onChange={this.handleChangeModalidad} />{' '}
+                  Presencial
+                </Label>
+                <Label check>
+                  <Input type="radio" name="radio1" value="Remoto" onChange={this.handleChangeModalidad}  />{' '}
+                  Remoto
+                </Label>
+              </FormGroup>
             </Col>
           </FormGroup>
           <FormGroup row className="spc">
             <Col sm={{ size: 3, offset: 3 }}>
               <h5>Ciudad: </h5>
               <SelectMaps
-                handleChange={this.handleChange.bind(this, 'ciudad')}
-                handleSelect={this.handleChange.bind(this, 'ciudad')}
-                value={this.state.jobState.get('ciudad')}
+                handleChangeCiudad={this.handleChangeCiudad}
               />
             </Col>
             <Col sm={{ size: 4 }}>
-              <h5>Que desarrolle en que lenguaje o framework o tecnologia ?</h5>
+              <h5>Lenguaje o framework o tecnologia ?</h5>
             </Col>
             <Col sm={{ size: 3 }}>
-              <Dropdown
-                auto
-                onChange={this.handleChange.bind(this, 'keywords')}
-                source={tecnologies}
+              <Input
+                type="select"
+                name="selectMulti"
+                id="exampleSelectMulti"
                 value={this.state.jobState.get('keywords')}
-              />
+                onChange={this.handleChangeKeywords}
+              >
+                <option value="0">Seleccione una opcion</option>
+                <option value="vue">Vue</option>
+                <option value="react">React</option>
+              </Input>
             </Col>
           </FormGroup>
           <FormGroup row className="spc">
@@ -158,7 +202,7 @@ class Oferta extends Component {
                 id="idDescripcion"
                 placeholder="Ingresa la descripcion del empleo"
                 value={this.state.jobState.get('descripcion')}
-                onChange={this.handleChange.bind(this, 'descripcion')}
+                onChange={this.handleChangeDescripcion}
               />
             </Col>
           </FormGroup>

@@ -28,7 +28,7 @@ export function createJob(job) {
     dispatch(toggleJobsLoading());
     console.log('ENTRO AL JOBS ACtIONS');
     console.log(job);
-    fire.database().ref(route).push(JSON.stringify(assign({}, job)));
+    fire.database().ref(route).push(job);
     dispatch(toggleJobsLoading());
     dispatch(refreshJobs());
   };
