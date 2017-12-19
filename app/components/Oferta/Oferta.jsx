@@ -77,8 +77,11 @@ class Oferta extends Component {
 
   handleCreateJob = () => {
     const { createJob } = this.props;
-    this.state.jobState.set('fecha', new Date());
-    createJob(this.state.jobState.toJS());
+    const myDate = new Date();
+    const month = myDate.getMonth() + 1 < 10 ? `0${myDate.getMonth() + 1}` : `${myDate.getMonth() + 1}`;
+    const job = this.state.jobState.set('fecha', `${myDate.getDate()}-${month}-${myDate.getFullYear()}`);
+    console.log(job.toJS());
+    createJob(job.toJS());
   }
 
   render() {
@@ -190,6 +193,11 @@ class Oferta extends Component {
                 <option value="0">Seleccione una opcion</option>
                 <option value="vue">Vue</option>
                 <option value="react">React</option>
+                <option value="javascript">Javascript</option>
+                <option value="java">Java</option>
+                <option value="php">PHP</option>
+                <option value="python">Python</option>
+                <option value="ruby">Ruby</option>
               </Input>
             </Col>
           </FormGroup>

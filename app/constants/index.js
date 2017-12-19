@@ -1,1 +1,1 @@
-export endpoints, { route } from './endpoints';
+export endpoints, { route, firebaseConfig } from './endpoints';

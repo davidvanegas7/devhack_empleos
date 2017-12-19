@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
 import { Input, Label, Col, Row, Container, FormGroup, Button } from 'reactstrap';
 import { fromJS } from 'immutable';
-
-import fire from '../../fire';
+import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+import { isNil } from 'lodash/fp';
 import Navig from '../Nav';
 
 class Login extends Component {
+
+  static propTypes = {
+    loginUser: PropTypes.func.isRequired,
+    verifyUser: PropTypes.func.isRequired,
+    logoutUser: PropTypes.func.isRequired,
+    userData: ImmutablePropTypes.map.isRequired,
+  };
 
   static loginState = () => fromJS({
     email: '',
@@ -17,16 +25,8 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        console.log(user);
-        // ...
-      } else {
-        // User is signed out.
-        console.log('no user');
-        // ...
-      }
-    });
+    const { verifyUser } = this.props;
+    verifyUser();
   }
 
   handleChangex = (evt, key) => {
@@ -44,31 +44,24 @@ class Login extends Component {
     this.handleChangex(evt, 'password');
   }
 
-  logged = () => {
-    fire.auth().onAuthStateChanged((user) => {
-      if (user) {
-        return true;
-      }
-      console.log('no user');
-      return false;
-    });
+  unLogged = () => {
+    console.log('In unLogged');
+    console.log(this.props.userData.get('userStatus'));
+    return isNil(this.props.userData.get('userStatus'));
   }
 
   executeLogin = () => {
-    const email = this.state.loginState.get('email');
-    const password = this.state.loginState.get('password');
-    fire.auth().signInWithEmailAndPassword(email, password).catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(`errorcode: ${errorCode}`);
-      console.log(`errorMessage: ${errorMessage}`);
-      // ...
-    });
+    const { loginUser } = this.props;
+    loginUser(this.state.loginState);
+  }
+
+  executeLogout = () => {
+    const { logoutUser } = this.props;
+    logoutUser();
   }
 
   render() {
-    return !this.logged ? (
+    return this.unLogged() ? (
       <div>
         <Navig />
         <Container style={{ padding: '2rem' }}>
@@ -124,6 +117,7 @@ class Login extends Component {
           <Row className="spc">
             <Col xs="12" sm="12">
               <h3>Actualmente estas logueado en el sistemas</h3>
+              <Button color="danger" onClick={this.executeLogout}>Salir</Button>{' '}
             </Col>
           </Row>
         </Container>

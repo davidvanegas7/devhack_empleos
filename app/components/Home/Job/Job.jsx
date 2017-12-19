@@ -12,6 +12,7 @@ class Job extends Component {
 
   render() {
     const { job } = this.props;
+    console.log(job.toJS());
     return (
       <div className={style.divjob}>
         <div>

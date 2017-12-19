@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import store from '../store';
 import Home from './Home/container';
 import Oferta from './Oferta/container';
-import Login from './Login';
+import Login from './Login/container';
 
 // para poder usar el store hay que contener la aplicacion en un provider
 const App = () => (
