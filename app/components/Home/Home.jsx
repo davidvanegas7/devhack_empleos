@@ -7,6 +7,7 @@ import { fromJS, List } from 'immutable';
 import Navig from '../Nav';
 import SelectMaps from '../SelectMaps';
 import Job from './Job/Job';
+import Modal from './Modal/Modal';
 
 class Home extends Component {
 
@@ -21,11 +22,12 @@ class Home extends Component {
     keywords: '0',
     job: List(),
     job2: {},
+    jobmodal: undefined,
+    showForm: false,
+    showDialog: false,
   });
 
   state = {
-    job: undefined,
-    showDialog: false,
     homeState: Home.homeState(),
   };
 
@@ -55,6 +57,7 @@ class Home extends Component {
         key={job.get('id')}
         id={job.get('id')}
         job={job}
+        viewJob={this.handleViewJob}
       />
     ))
     .toJS();
@@ -83,6 +86,30 @@ class Home extends Component {
     const homeState = this.state.homeState.set('ciudad', value);
     this.setState({ homeState });
     this.filtering('ciudad');
+  }
+
+  handleViewJob = (id, job) => {
+    const homeState = this.state.homeState.set('jobmodal', job.set('id', id))
+    .set('showForm', true);
+    console.log(homeState);
+    this.setState({
+      homeState,
+    });
+  };
+
+  handleShowForm = () => {
+    const homeState = this.state.homeState.set('showForm', true);
+    this.setState({ homeState });
+  };
+
+  handleCloseForm = () => {
+    const homeState = this.state.homeState.set('showForm', false).set('jobmodal', undefined);
+    this.setState({ homeState });
+  };
+
+  handleCloseDialog = () => {
+    const homeState = this.state.homeState.set('showForm', false).set('jobmodal', undefined);
+    this.setState({ homeState });
   }
 
   render() {
@@ -145,6 +172,11 @@ class Home extends Component {
           <Row className="spc">
             <Col sm={{ offset: 2 }}>
               {this.state.homeState.get('job2')}
+              <Modal
+                active={this.state.homeState.get('showForm')}
+                closeForm={this.handleCloseForm}
+                job={this.state.homeState.get('jobmodal')}
+              />
             </Col>
           </Row>
         </Container>
