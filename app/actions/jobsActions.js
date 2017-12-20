@@ -74,14 +74,7 @@ export function fetchJobs() {
     jobsRef.on('value', (snapshot) => {
       snapshot.forEach(childSnapshot => {
         items.push({
-          empresa: childSnapshot.val(),
-          cargo: 'cargo',
-          tipo: 'tipo',
-          ciudad: 'ciudad',
-          fecha: 'fecha',
-          descripcion: 'descripcion',
-          email: 'email',
-          celular: 'celular',
+          ...childSnapshot.val(),
           key: childSnapshot.key,
           id: childSnapshot.key,
         });

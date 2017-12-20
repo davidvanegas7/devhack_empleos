@@ -3,6 +3,7 @@ import { Input, Label, Col, Row, Container } from 'reactstrap';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 // import 'bootstrap/dist/css/bootstrap.css';
+import { fromJS, List } from 'immutable';
 import Navig from '../Nav';
 import SelectMaps from '../SelectMaps';
 import Job from './Job/Job';
@@ -14,6 +15,20 @@ class Home extends Component {
     jobsData: ImmutablePropTypes.map.isRequired,
   };
 
+  static homeState = () => fromJS({
+    ciudad: '',
+    modalidad: 'Remoto',
+    keywords: '0',
+    job: List(),
+    job2: {},
+  });
+
+  state = {
+    job: undefined,
+    showDialog: false,
+    homeState: Home.homeState(),
+  };
+
   componentDidMount() {
     const { fetchJobs } = this.props;
     fetchJobs();
@@ -22,23 +37,55 @@ class Home extends Component {
   componentWillReceiveProps(nextProps) {
     const { fetchJobs } = this.props;
     const { jobsData } = nextProps;
-    console.log(jobsData.get('postsLoading'), jobsData.get('refresh'));
+    const jobs = this.props.jobsData.get('jobs');
+    const homeState = this.state.homeState.set('job', jobs);
+    this.setState({ homeState });
     if (!jobsData.get('postsLoading') && jobsData.get('refresh')) {
       console.log('¡Entró!');
       fetchJobs();
     }
   }
 
-  render() {
-    const jobs = this.props.jobsData.get('jobs');
-    const jobItems = jobs.map(job => (
+  filtering = (atrb) => {
+    console.log(`'${atrb}'`);
+    const job2 = this.state.homeState.get('job')
+    .filter(job => job.get(atrb) === this.state.homeState.get(atrb))
+    .map(job => (
       <Job
         key={job.get('id')}
         id={job.get('id')}
         job={job}
       />
-    )).toJS();
+    ))
+    .toJS();
+    console.log(this.state.homeState.get('job'));
+    const homeState = this.state.homeState.set('job2', job2);
+    this.setState({ homeState });
+  }
 
+
+  handleChange = (evt, key) => {
+    const value = evt.target.value;
+    const homeState = this.state.homeState.set(key, value);
+    this.filtering(key);
+    this.setState({ homeState });
+  };
+
+  handleChangeModalidad = (evt) => {
+    this.handleChange(evt, 'modalidad');
+  }
+
+  handleChangeKeywords = (evt) => {
+    this.handleChange(evt, 'keywords');
+  }
+
+  handleChangeCiudad = (value) => {
+    const homeState = this.state.homeState.set('ciudad', value);
+    this.setState({ homeState });
+    this.filtering('ciudad');
+  }
+
+  render() {
     return (
       <div>
         <Navig />
@@ -66,32 +113,41 @@ class Home extends Component {
             <Col xs="6" sm="6">
               <h5>En donde?</h5>
               <Label check>
-                <Input type="radio" name="radio1" />{' '}
+                <Input type="radio" name="radio1" value="Presencial" onChange={this.handleChangeModalidad} />{' '}
                 Presencial
               </Label>
               <Label check sm={{ offset: 2 }}>
-                <Input type="radio" name="radio1" />{' '}
+                <Input type="radio" name="radio1" value="Remoto" onChange={this.handleChangeModalidad} />{' '}
                 Remoto
               </Label>
             </Col>
             <Col xs="6" sm="4">
               <h5>Ciudad</h5>
-              <SelectMaps />
+              <SelectMaps handleChangeCiudad={this.handleChangeCiudad} />
             </Col>
           </Row>
           <Row className="spc">
             <Col sm="12" md={{ size: 7 }}>
               <h5>Que desarrolle en que lenguaje o framework o tecnologia ?</h5>
-              <Input type="select" name="select" id="TipoLenguaje">
-                <option>React</option>
-                <option>Vue</option>
+              <Input
+                type="select"
+                name="selectMulti"
+                id="exampleSelectMulti"
+                value={this.state.homeState.get('keywords')}
+                onChange={this.handleChangeKeywords}
+              >
+                <option value="0">Seleccione una opcion</option>
+                <option value="vue">Vue</option>
+                <option value="react">React</option>
               </Input>
             </Col>
           </Row>
+          <Row className="spc">
+            <Col sm={{ offset: 2 }}>
+              {this.state.homeState.get('job2')}
+            </Col>
+          </Row>
         </Container>
-        <div>
-          {jobItems}
-        </div>
       </div>
     );
   }
