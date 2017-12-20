@@ -4,7 +4,9 @@ import { fromJS } from 'immutable';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { isNil } from 'lodash/fp';
-import Navig from '../Nav';
+import { Redirect } from 'react-router-dom';
+
+import Navig from '../Nav/container';
 
 class Login extends Component {
 
@@ -31,7 +33,6 @@ class Login extends Component {
 
   handleChangex = (evt, key) => {
     const value = evt.target.value;
-    console.log(`${key}: ${value}`);
     const loginState = this.state.loginState.set(key, value);
     this.setState({ loginState });
   };
@@ -45,9 +46,8 @@ class Login extends Component {
   }
 
   unLogged = () => {
-    console.log('In unLogged');
-    console.log(this.props.userData.get('userStatus'));
-    return isNil(this.props.userData.get('userStatus'));
+    const status = this.props.userData.get('userStatus');
+    return isNil(status);
   }
 
   executeLogin = () => {
@@ -105,26 +105,7 @@ class Login extends Component {
           </Row>
         </Container>
       </div>
-    ) : (
-      <div>
-        <Navig />
-        <Container style={{ padding: '2rem' }}>
-          <Row>
-            <Col sm={{ size: 12 }}>
-              <h1>Login</h1>
-            </Col>
-          </Row>
-          <Row className="spc">
-            <Col xs="12" sm="12">
-              <h3>Actualmente estas logueado en el sistemas</h3>
-              <Button color="danger" onClick={this.executeLogout}>Salir</Button>{' '}
-            </Col>
-          </Row>
-        </Container>
-      </div>
-    )
-
-    ;
+    ) : <Redirect to="/" />;
   }
 }
 

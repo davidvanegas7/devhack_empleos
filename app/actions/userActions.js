@@ -18,28 +18,28 @@ const cleanUser = () => (
 
 // Acciones que se exportan para ser usadas en las clases de React
 export function loginUser(loginState) {
-  const email = loginState.get('email');
-  const password = loginState.get('password');
-  fire.auth().signInWithEmailAndPassword(email, password)
-  .then((result) => {
-    console.log(result);
-  })
-  .catch((error) => {
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(`errorcode: ${errorCode}`);
-    console.log(`errorMessage: ${errorMessage}`);
-    // ...
-  });
+  return (dispatch) => {
+    const email = loginState.get('email');
+    const password = loginState.get('password');
+    fire.auth().signInWithEmailAndPassword(email, password)
+    .then((result) => {
+      dispatch(receiveUser(result.email));
+    })
+    .catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(`errorcode: ${errorCode}`);
+      console.log(`errorMessage: ${errorMessage}`);
+      // ...
+    });
+  };
 }
 
 export function verifyUser() {
   return (dispatch) => {
     fire.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log('In VERIFY USER');
-        console.log(user);
         dispatch(receiveUser(user.email));
       } else {
         dispatch(cleanUser());
@@ -55,7 +55,6 @@ export function logoutUser() {
     }).catch((error) => {
       console.log('error: ');
       console.log(error);
-
       // An error happened.
     });
   };

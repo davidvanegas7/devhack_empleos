@@ -3,7 +3,7 @@ import { Input, Label, Col, Row, Container } from 'reactstrap';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 // import 'bootstrap/dist/css/bootstrap.css';
-import Navig from '../Nav';
+import Navig from '../Nav/container';
 import SelectMaps from '../SelectMaps';
 import Job from './Job/Job';
 

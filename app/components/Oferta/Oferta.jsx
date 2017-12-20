@@ -3,7 +3,7 @@ import { Container, Row, Col, FormGroup, Input, Label } from 'reactstrap';
 import PropTypes from 'prop-types';
 // import 'bootstrap/dist/css/bootstrap.css';
 import { fromJS } from 'immutable';
-import Navig from '../Nav';
+import Navig from '../Nav/container';
 import SelectMaps from '../SelectMaps';
 
 class Oferta extends Component {
@@ -27,6 +27,10 @@ class Oferta extends Component {
   state = {
     jobState: Oferta.jobState(),
   };
+
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
 
   handleChange = (key, value) => {
     console.log(`${key}: ${value}`);

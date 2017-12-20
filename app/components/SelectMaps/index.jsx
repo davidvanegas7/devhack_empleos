@@ -61,7 +61,7 @@ class SelectMaps extends Component {
   render() {
     const cssClasses = {
       root: 'form-group',
-      input: 'Demo__search-input',
+      input: 'Demo__search-input form-control',
       autocompleteContainer: 'Demo__autocomplete-container',
     };
 
@@ -87,7 +87,7 @@ class SelectMaps extends Component {
 
     return (
       <div className="page-wrapper">
-        <div className="container">
+        <div>
           <PlacesAutocomplete
             onSelect={this.handleSelect}
             autocompleteItem={AutocompleteItem}

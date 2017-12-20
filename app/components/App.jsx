@@ -9,6 +9,8 @@ import store from '../store';
 import Home from './Home/container';
 import Oferta from './Oferta/container';
 import Login from './Login/container';
+// import withLoggedFuncions from './login/HOCLogin';
+// const LoginWithLoggedFunctions = withLoggedFuncions(Login);
 
 // para poder usar el store hay que contener la aplicacion en un provider
 const App = () => (
@@ -22,9 +24,5 @@ const App = () => (
     </Router>
   </Provider>
 );
-/*
-initAuth(store.dispatch)
-  .then(() => render(App))
-  .catch(error => console.error(error));
-*/
+
 export default App;
