@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import style from './style';
+import style from './style.scss';
 
 class Job extends Component {
   static propTypes = {

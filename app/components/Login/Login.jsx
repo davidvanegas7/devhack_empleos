@@ -27,6 +27,7 @@ class Login extends Component {
   }
 
   componentDidMount() {
+    document.title = 'Devhack - Login';
     const { verifyUser } = this.props;
     verifyUser();
   }

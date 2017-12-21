@@ -15,6 +15,7 @@ class Home extends Component {
   };
 
   componentDidMount() {
+    document.title = 'Devhack - Home';
     const { fetchJobs } = this.props;
     fetchJobs();
   }
@@ -42,12 +43,6 @@ class Home extends Component {
     return (
       <div>
         <Navig />
-        <style jsx>{`
-          .spc {
-            margin: 40px 0;
-          }
-        `}
-        </style>
         <Container style={{ padding: '2rem' }}>
           <Row className="spc">
             <center>

@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import { fromJS } from 'immutable';
 import Navig from '../Nav/container';
 import SelectMaps from '../SelectMaps';
+// import style from '../Theme.scss';
+import './style.css';
 
 class Oferta extends Component {
 
@@ -29,18 +31,17 @@ class Oferta extends Component {
   };
 
   componentDidMount() {
+    document.title = 'Devhack - Oferta';
     window.scrollTo(0, 0);
   }
 
   handleChange = (key, value) => {
-    console.log(`${key}: ${value}`);
     const jobState = this.state.jobState.set(key, value);
     this.setState({ jobState });
   };
 
   handleChangex = (evt, key) => {
     const value = evt.target.value;
-    console.log(`${key}: ${value}`);
     const jobState = this.state.jobState.set(key, value);
     this.setState({ jobState });
   };
@@ -92,12 +93,6 @@ class Oferta extends Component {
     return (
       <div>
         <Navig />
-        <style jsx>{`
-          .spc {
-            margin: 40px 0;
-          }
-        `}
-        </style>
         <Container style={{ padding: '2rem' }}>
           <Row className="spc">
             <center>
@@ -163,14 +158,14 @@ class Oferta extends Component {
             <Col sm={{ size: 1, offset: 3 }}>
               <h5>Modalidad: </h5>
             </Col>
-            <Col sm={{ size: 4 }}>
+            <Col sm={{ size: 6 }}>
               <FormGroup check>
                 <Label check>
                   <Input type="radio" name="radio1" value="Presencial" onChange={this.handleChangeModalidad} />{' '}
                   Presencial
                 </Label>
-                <Label check>
-                  <Input type="radio" name="radio1" value="Remoto" onChange={this.handleChangeModalidad}  />{' '}
+                <Label check style={{ paddingLeft: '40px' }}>
+                  <Input type="radio" name="radio1" value="Remoto" onChange={this.handleChangeModalidad} />{' '}
                   Remoto
                 </Label>
               </FormGroup>

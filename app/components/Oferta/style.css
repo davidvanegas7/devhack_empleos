@@ -1,0 +1,14 @@
+.btnDanger {
+    background: #F05E1B;
+    border-color: #FE2E2E;
+    border-width: 2px;
+    border-radius: 0;
+    color: #fff;
+    padding: .75rem 1.5rem;
+    font-size: 1.25rem;
+}
+
+.btnDanger:focus, .btnDanger:hover {
+    background: #ea1932;
+    border-color: #ea1932;
+}
