@@ -6,6 +6,7 @@ import { fromJS } from 'immutable';
 import Navig from '../Nav/container';
 import SelectMaps from '../SelectMaps';
 import Message from '../Message/Message';
+import Warning from '../Message/Warning';
 // import style from '../Theme.scss';
 import './style.css';
 
@@ -29,7 +30,8 @@ class Oferta extends Component {
 
   state = {
     jobState: Oferta.jobState(),
-    messafe: '',
+    message: '',
+    warning: '',
   };
 
   componentDidMount() {
@@ -83,14 +85,27 @@ class Oferta extends Component {
 
 
   handleCreateJob = () => {
-    const { createJob } = this.props;
-    const myDate = new Date();
-    const month = myDate.getMonth() + 1 < 10 ? `0${myDate.getMonth() + 1}` : `${myDate.getMonth() + 1}`;
-    const job = this.state.jobState.set('fecha', `${myDate.getDate()}-${month}-${myDate.getFullYear()}`);
-    console.log(job.toJS());
-    createJob(job.toJS());
-    this.setState({ jobState: Oferta.jobState(), message: 'La oferta ha sido agregada exitosamente' });
-    setTimeout(() => { this.setState({ message: '' }); }, 5000);
+    const jobState = Oferta.jobState();
+    if (jobState.get('titulo') !== this.state.jobState.get('titulo') &&
+      jobState.get('empresa') !== this.state.jobState.get('empresa') &&
+      jobState.get('email') !== this.state.jobState.get('email') &&
+      jobState.get('telefono') !== this.state.jobState.get('telefono') &&
+      jobState.get('descripcion') !== this.state.jobState.get('descripcion') &&
+      jobState.get('modalidad') !== this.state.jobState.get('modalidad') &&
+      jobState.get('keywords') !== this.state.jobState.get('keywords') &&
+      jobState.get('ciudad') !== this.state.jobState.get('ciudad')) {
+      const { createJob } = this.props;
+      const myDate = new Date();
+      const month = myDate.getMonth() + 1 < 10 ? `0${myDate.getMonth() + 1}` : `${myDate.getMonth() + 1}`;
+      const job = this.state.jobState.set('fecha', `${myDate.getDate()}-${month}-${myDate.getFullYear()}`);
+      console.log(job.toJS());
+      createJob(job.toJS());
+      this.setState({ jobState: Oferta.jobState(), message: 'La oferta ha sido agregada exitosamente' });
+      setTimeout(() => { this.setState({ message: '' }); }, 5000);
+    } else {
+      this.setState({ warning: 'Faltan datos para completar la oferta' });
+      setTimeout(() => { this.setState({ warning: '' }); }, 5000);
+    }
   }
 
   render() {
@@ -229,6 +244,7 @@ class Oferta extends Component {
           </FormGroup>
         </div>
         <Message text={this.state.message} />
+        <Warning text={this.state.warning} />
       </div>
     );
   }
