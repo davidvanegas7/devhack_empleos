@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --progress",
-    "deploy": "firebase deploy"
+    "deploy": "firebase deploy",
+    "build": "babel src -d lib"
   },
   "repository": {
     "type": "git",

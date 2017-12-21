@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { fromJS } from 'immutable';
 import { isNil } from 'lodash/fp';
+import Message from '../Message/Message';
 
 // import 'bootstrap/dist/css/bootstrap.css';
 
@@ -23,6 +24,7 @@ class Navig extends Component {
 
   state = {
     loginState: Navig.loginState(),
+    message: '',
   }
 
   componentDidMount() {
@@ -38,6 +40,8 @@ class Navig extends Component {
   executeLogout = () => {
     const { logoutUser } = this.props;
     logoutUser();
+    this.setState({ message: 'Has cerrado session exitosamente' });
+    setTimeout(() => { this.setState({ message: '' }); }, 5000);
   }
 
   render() {
@@ -49,6 +53,9 @@ class Navig extends Component {
           <li className="dere"><h4><a href="/" className="btn btn-md btn-link btn-right">Comunidad</a></h4></li>
         </ul>
         <div style={{ height: '50px' }} />
+        <Message
+          text={this.state.message}
+        />
       </div>
     ) : (
       <div>
@@ -58,6 +65,9 @@ class Navig extends Component {
           <li className="dere"><h4><a href="/" className="btn btn-md btn-link btn-right">Comunidad</a></h4></li>
         </ul>
         <div style={{ height: '50px' }} />
+        <Message
+          text={this.state.message}
+        />
       </div>
     );
   }

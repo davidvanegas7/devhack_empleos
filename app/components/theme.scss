@@ -1,5 +1,5 @@
 /*
-@import "~react-toolbox/lib/colors";
+@import "~react-toolbox/lib/_mixins";
 @import "~react-toolbox/lib/mixins";
 @import "~react-toolbox/lib/globals";
 @import "~react-toolbox/lib/commons";
@@ -8,6 +8,7 @@
 $color-primary: $palette-blue-500;
 $color-primary-dark: $palette-blue-700;
 */
+@import "~react-toolbox/lib/colors";
 
 .btnDanger {
     background: #F05E1B;

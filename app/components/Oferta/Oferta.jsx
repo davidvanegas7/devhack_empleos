@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { fromJS } from 'immutable';
 import Navig from '../Nav/container';
 import SelectMaps from '../SelectMaps';
+import Message from '../Message/Message';
 // import style from '../Theme.scss';
 import './style.css';
 
@@ -28,6 +29,7 @@ class Oferta extends Component {
 
   state = {
     jobState: Oferta.jobState(),
+    messafe: '',
   };
 
   componentDidMount() {
@@ -87,6 +89,8 @@ class Oferta extends Component {
     const job = this.state.jobState.set('fecha', `${myDate.getDate()}-${month}-${myDate.getFullYear()}`);
     console.log(job.toJS());
     createJob(job.toJS());
+    this.setState({ jobState: Oferta.jobState(), message: 'La oferta ha sido agregada exitosamente' });
+    setTimeout(() => { this.setState({ message: '' }); }, 5000);
   }
 
   render() {
@@ -224,6 +228,7 @@ class Oferta extends Component {
             </center>
           </FormGroup>
         </div>
+        <Message text={this.state.message} />
       </div>
     );
   }
