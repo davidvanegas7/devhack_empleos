@@ -64,7 +64,7 @@ class SelectMaps extends Component {
       onBlur: () => { console.log('Blur event!'); },
       onFocus: () => { console.log('Focused!'); },
       autoFocus: true,
-      placeholder: 'Search Places',
+      placeholder: 'Buscar Ciudad',
       name: 'Demo__input',
       id: 'my-input-id',
     };
