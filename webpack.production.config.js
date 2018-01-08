@@ -4,29 +4,18 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  devtool: 'eval-source-map',
 
   entry: [
-    'react-hot-loader/patch',
-    // activate HMR for React
-
-    'webpack-dev-server/client?http://localhost:8081',
-    // bundle the client for webpack-dev-server
-    // and connect to the provided endpoint
-
-    'webpack/hot/only-dev-server',
-
     'babel-polyfill',
-
     `${__dirname}/app/index.jsx`,
   ],
   output: {
     path: `${__dirname}/build`,
-    filename: 'bundle.js',
+    filename: '[name]-[hash].js',
   },
 
   resolve: {
-    extensions: ['.jsx', '.scss', '.js'],
+    extensions: ['.jsx', '.scss', '.js', '.json'],
   },
 
   module: {
@@ -34,6 +23,10 @@ module.exports = {
       {
         test: /\.html$/,
         loader: 'html-loader',
+      },
+      {
+        test: /\.json$/,
+        loader: 'json-loader',
       },
       {
         test: /\.js|jsx?$/,
@@ -87,6 +80,18 @@ module.exports = {
         }),
       },
       {
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url-loader',
+      },
+      {
+        test: /\.gif/,
+        loader: 'url-loader',
+      },
+      {
+        test: /\.jpg/,
+        loader: 'url-loader',
+      },
+      {
         test: /\.png/,
         loader: 'url-loader',
       },
@@ -106,6 +111,4 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin(),
     new ExtractTextPlugin('[name]-[hash].css'),
   ],
-
-
 };
